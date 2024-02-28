@@ -10,15 +10,22 @@ def save_password():
     email = email_input.get()
     password = password_input.get()
 
-    is_ok = messagebox.askokcancel(title=website, message=f"Here are your details: \n\nEmail: {email} "
-                                                         f"\nPassword: {password} \n\nDo you want to save?")
+    if len(website) == 0:
+        messagebox.showinfo(title="Empty website field", message="Oops, please fill out the website field")
+    elif len(email) == 0:
+        messagebox.showinfo(title="Empty email field", message="Oops, please fill out the email field")
+    elif len(password) == 0:
+        messagebox.showinfo(title="Empty password field", message="Oops, please fill out the password field")
+    else:
+        is_ok = messagebox.askokcancel(title=website, message=f"Here are your details: \n\nEmail: {email} "
+                                                              f"\nPassword: {password} \n\nDo you want to save?")
 
-    if is_ok:
-        with open("password_manager.txt", mode="a") as file:
-            file.write(f"\n{website} | {email} | {password}")
+        if is_ok:
+            with open("password_manager.txt", mode="a") as file:
+                file.write(f"\n{website} | {email} | {password}")
 
-        clear_input(website_input)
-        clear_input(password_input)
+            clear_input(website_input)
+            clear_input(password_input)
 
 
 def clear_input(text):
