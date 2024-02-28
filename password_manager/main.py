@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -9,12 +10,15 @@ def save_password():
     email = email_input.get()
     password = password_input.get()
 
-    with open("password_manager.txt", mode="a") as file:
-        file.write(f"\n{website} | {email} | {password}")
+    is_ok = messagebox.askokcancel(title=website, message=f"Here are your details: \n\nEmail: {email} "
+                                                         f"\nPassword: {password} \n\nDo you want to save?")
 
-    clear_input(website_input)
-    clear_input(email_input)
-    clear_input(password_input)
+    if is_ok:
+        with open("password_manager.txt", mode="a") as file:
+            file.write(f"\n{website} | {email} | {password}")
+
+        clear_input(website_input)
+        clear_input(password_input)
 
 
 def clear_input(text):
