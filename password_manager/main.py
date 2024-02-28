@@ -12,7 +12,13 @@ def save_password():
     with open("password_manager.txt", mode="a") as file:
         file.write(f"\n{website} | {email} | {password}")
 
+    clear_input(website_input)
+    clear_input(email_input)
+    clear_input(password_input)
 
+
+def clear_input(text):
+    text.delete(0, END)
 # ---------------------------- UI SETUP ------------------------------- #
 # Create Tkinter window
 window = Tk()
