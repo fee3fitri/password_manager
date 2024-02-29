@@ -81,15 +81,17 @@ def search_password():
     try:
         with open("data.json") as file:
             data = json.load(file)
-            if website in data:
-                email = data[website]["email"]
-                password = data[website]["password"]
-                messagebox.showinfo(title=website, message=f"Email: {email} \nPassword: {password}")
     except FileNotFoundError:
-        with open("data.json", "w") as file:
-            # Update the file
-            pass
-        messagebox.showinfo(title="Error", message=f"Oops, {website} and its password are not saved yet")
+        messagebox.showinfo(title="Error", message=f"Oops, there is no credential saved yet.")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email} \nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message=f"Oops, {website} and its password are not saved yet")
+
+
 
 
 # ---------------------------- UI SETUP ------------------------------- #
