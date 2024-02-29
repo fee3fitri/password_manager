@@ -50,9 +50,22 @@ def save_password():
                                                               f"\nPassword: {password} \n\nDo you want to save?")
 
         if is_ok:
-            with open("data.json", "w") as file:
-                json.dump(json_data, file, indent=2)
+            try:
+                with open("data.json") as file:
+                    # Read old data
+                    data = json.load(file)
+            except FileNotFoundError:
+                with open("data.json", "w") as file:
+                    # Update the file
+                    json.dump(json_data, file, indent=2)
+            else:
+                # Update old data with new data
+                data.update(json_data)
 
+                with open("data.json", "w") as file:
+                    # Update the file
+                    json.dump(data, file, indent=2)
+            finally:
                 clear_input(website_input)
                 clear_input(password_input)
 
