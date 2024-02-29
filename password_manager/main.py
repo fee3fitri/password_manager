@@ -72,6 +72,26 @@ def save_password():
 
 def clear_input(text):
     text.delete(0, END)
+
+
+# ---------------------------- SEARCH PASSWORD ------------------------------- #
+def search_password():
+    website = website_input.get()
+
+    try:
+        with open("data.json") as file:
+            data = json.load(file)
+            if website in data:
+                email = data[website]["email"]
+                password = data[website]["password"]
+                messagebox.showinfo(title=website, message=f"Email: {email} \nPassword: {password}")
+    except FileNotFoundError:
+        with open("data.json", "w") as file:
+            # Update the file
+            pass
+        messagebox.showinfo(title="Error", message=f"Oops, {website} and its password are not saved yet")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 # Create Tkinter window
 window = Tk()
@@ -88,9 +108,11 @@ canvas.grid(row=1, column=1)
 website_label = Label(text="Website: ")
 website_label.grid(row=10, column=0)
 website_label.config(padx=10, pady=10)
-website_input = Entry(width=45)
+website_input = Entry(width=27)
 website_input.focus()
-website_input.grid(row=10, column=1, columnspan=2)
+website_input.grid(row=10, column=1)
+search_btn = Button(text="Search", command=search_password, width=16)
+search_btn.grid(row=10, column=2)
 
 # Email input
 email_label = Label(text="Email/username: ")
