@@ -1,30 +1,47 @@
 from tkinter import *
 from tkinter import messagebox
 from random import randint, choice, sample
-import pyperclip
-import json
+# import pyperclip
+# import json
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
-def generate_password():
-    letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x',
-               'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H',
-               'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M']
-    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+']
+# def generate_password():
+#     letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x',
+#                'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H',
+#                'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M']
+#     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+#     symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+']
 
-    password_len = randint(10, 15)
-    symbol_count = randint(2,4)
-    number_count = randint(2, 4)
-    letter_count = password_len - symbol_count - number_count
+#     password_len = randint(10, 15)
+#     symbol_count = randint(2,4)
+#     number_count = randint(2, 4)
+#     letter_count = password_len - symbol_count - number_count
 
-    password = [choice(symbols) for _ in range(symbol_count)]
-    password += [choice(numbers) for _ in range(number_count)]
-    password += [choice(letters) for _ in range(letter_count)]
+#     password = [choice(symbols) for _ in range(symbol_count)]
+#     password += [choice(numbers) for _ in range(number_count)]
+#     password += [choice(letters) for _ in range(letter_count)]
 
-    password_str = ''.join(sample(password, len(password)))
-    password_input.insert(0, password_str)
-    pyperclip.copy(password_str)
+#     password_str = ''.join(sample(password, len(password)))
+#     password_input.insert(0, password_str)
+#     pyperclip.copy(password_str)
+import os
+import base64
+import string
+import random
+
+def generate_password(length):
+    while True:
+        random_bytes = os.urandom(length)
+        password = base64.b64encode(random_bytes).decode('utf-8')
+        password = password.replace('/', '')
+        password = password.replace('+', '')
+        if (sum(c.isdigit() for c in password) >= 2 and
+            sum(c in string.punctuation for c in password) >= 2 and
+            len(password) >= 10):
+            return password
+
+print(generate_password(10))
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
